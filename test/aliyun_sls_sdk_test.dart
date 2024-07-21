@@ -11,12 +11,7 @@ void main() {
         project: 'test',
         accessKeyId: '',
         accessKeySecret: ''));
-    final res = await client.putLogs([
-      Log(
-        time: DateTime.now().millisecondsSinceEpoch ~/ 1000,
-        contents: [Log_Content(key: 'test', value: 'test')],
-      )
-    ]);
+    final res = await client.putLog({'test': 'test'});
     expect(res.statusCode, 200);
   });
 }

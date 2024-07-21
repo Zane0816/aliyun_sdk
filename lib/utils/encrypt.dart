@@ -12,7 +12,7 @@ class EncryptUtil {
   /// use md5 to encrypt the bytes content
   static String md5FromBytes(List<int> bytes) {
     final Digest digest = md5.convert(bytes);
-    return base64.encode(digest.bytes);
+    return digest.bytes.toString().toUpperCase();
   }
 
   /// 生成阿里云专有请求头字符串
