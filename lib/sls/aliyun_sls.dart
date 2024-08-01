@@ -39,9 +39,17 @@ class AliyunSLS {
       'x-log-signaturemethod': 'hmac-sha1',
       'x-acs-security-token': _options.securityToken,
     };
-    final resource = '${uri.path}?${uri.query}';
-    final signature = EncryptUtil.signature(_options.accessKeySecret, 'POST',
-        contentMD5, contentType, date, aliyunHeaders, resource);
+    final resource =
+        '${uri.path}${uri.query.isNotEmpty ? '?' : ''}${uri.query}';
+    final signature = EncryptUtil.signature(
+      accessKeySecret: _options.accessKeySecret,
+      method: 'POST',
+      contentMD5: contentMD5,
+      contentType: contentType,
+      date: date,
+      headers: aliyunHeaders,
+      resource: resource,
+    );
     final $headers = {
       'content-type': contentType,
       'Date': date,

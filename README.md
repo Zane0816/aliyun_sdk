@@ -1,39 +1,46 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+阿里云SDK Dart实现
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+# 特性
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
+- 支持 OSS的 签名、上传文件
+- 支持 SLS的 签名、上传日志
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+# 使用
 
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+## OSS上传文件
 
 ```dart
-const like = 'sample';
+import 'package:aliyun_sdk/aliyun_sdk.dart';
+import 'package:aliyun_sdk/oss/models/aliyun_oss_options.dart';
+
+void main() async {
+  const client = AliyunOSS(AliyunOSSOptions(
+    endpoint: 'cn-hangzhou.oss.aliyuncs.com',
+    accessKeyId: 'your accessKeyId',
+    accessKeySecret: 'your accessKeySecret',
+    bucket: 'test',
+    securityToken: 'your securityToken',));
+  final bytes = "file test bytes ".codeUnits;
+  final res = await client.putObject(bytes, 'test.txt');
+}
 ```
 
-## Additional information
+## SLS上传日志
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```dart
+import 'package:aliyun_sdk/sls/aliyun_sls.dart';
+import 'package:aliyun_sdk/sls/models/aliyun_sls_options.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+void main() async {
+  const client = AliyunSLS(AliyunSLSOptions(
+    endpoint: 'cn-shenzhen.log.aliyuncs.com',
+    store: 'test',
+    project: 'test',
+    accessKeyId: 'your accessKeyId',
+    accessKeySecret: 'your accessKeySecret',
+    securityToken: 'your securityToken',));
+  final res = await client.putLog({'test': 'test'});
+}
+
+```

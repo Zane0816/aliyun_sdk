@@ -26,6 +26,10 @@ class AliyunOSS {
     }
   }
 
+  String _canonicalizedResource(Uri uri) {
+    return '/${_options.bucket}${uri.path}${uri.query.isNotEmpty ? '?' : ''}${uri.query}';
+  }
+
   Future<Response<dynamic>> putObject(
     List<int> fileData,
     String fileKey, {
@@ -43,16 +47,23 @@ class AliyunOSS {
         Uri.parse("https://${_options.bucket}.${_options.endpoint}/$fileKey");
     final contentType = lookupMimeType(fileKey) ?? "application/octet-stream";
     final date = HttpDate.format(DateTime.now());
-    final resource = '${uri.path}?${uri.query}';
     final aliyunHeaders = {
       'x-oss-forbid-overwrite': override,
       'x-oss-object-acl': acl?.content,
       'x-oss-storage-class': storage?.content,
       'x-oss-date': date,
       'x-oss-security-token': _options.securityToken,
-    };
-    final String signature = EncryptUtil.signature(_options.accessKeySecret,
-        "PUT", '', contentType, date, aliyunHeaders, resource);
+    }..removeWhere((k, v) => v == null);
+    // final contentMd5 = EncryptUtil.md5Base64(fileData);
+    final String signature = EncryptUtil.signature(
+      accessKeySecret: _options.accessKeySecret,
+      method: 'PUT',
+      contentType: contentType,
+      // contentMd5: contentMd5,
+      date: date,
+      headers: aliyunHeaders,
+      resource: _canonicalizedResource(uri),
+    );
     final $headers = {
       'content-type': contentType,
       'content-length': multipartFile.length,

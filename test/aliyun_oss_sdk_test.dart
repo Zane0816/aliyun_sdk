@@ -5,10 +5,12 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('Aliyun OSS putLog', () async {
     const client = AliyunOSS(AliyunOSSOptions(
-        endpoint: 'cn-hangzhou.oss.aliyuncs.com',
-        accessKeyId: '',
-        accessKeySecret: '',
-        bucket: 'test'));
+      endpoint: 'cn-hangzhou.oss.aliyuncs.com',
+      accessKeyId: '',
+      accessKeySecret: '',
+      bucket: 'test',
+      securityToken: '',
+    ));
     final bytes = "file test bytes ".codeUnits;
     final res = await client.putObject(bytes, 'test.txt');
     expect(res.statusCode, 200);

@@ -31,15 +31,15 @@ class EncryptUtil {
   /// [date] HTTP请求消息头中Date字段的值，当前时间的格式化字符串。格式为RFC822/RFC1123，格式化字符串为%a, %d %b %Y %H:%M:%S GMT，时区为GMT标准时间。
   /// [headers] header中阿里云专有请求头，按 key升序排序后，以 : 连接键值，以换行符分隔键值对。
   /// [resource] HTTP请求消息URI，包含请求参数，格式为/bucket/object?param1=value1&param2=value2
-  static String signature(
-    String accessKeySecret,
-    String method,
-    String contentMD5,
-    String contentType,
-    String date,
-    Map<String, dynamic> headers,
-    String resource,
-  ) {
+  static String signature({
+    required String accessKeySecret,
+    required String method,
+    String contentMD5 = '',
+    String contentType = '',
+    String date = '',
+    required Map<String, dynamic> headers,
+    required String resource,
+  }) {
     final headerString = _getHeaderString(headers);
     final String singContent = [
       method,
