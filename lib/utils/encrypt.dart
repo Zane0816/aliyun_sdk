@@ -9,10 +9,17 @@ class EncryptUtil {
     return base64.encode(digest.bytes);
   }
 
-  /// use md5 to encrypt the bytes content
-  static String md5FromBytes(List<int> bytes) {
+  static String md5Hex(List<int> bytes) {
     final Digest digest = md5.convert(bytes);
-    return digest.bytes.toString().toUpperCase();
+    return digest.bytes
+        .map((e) => e.toRadixString(16).padLeft(2, '0'))
+        .join('')
+        .toUpperCase();
+  }
+
+  static String md5Base64(List<int> bytes) {
+    final Digest digest = md5.convert(bytes);
+    return base64Encode(digest.bytes);
   }
 
   /// 生成阿里云专有请求头字符串

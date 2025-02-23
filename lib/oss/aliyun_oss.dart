@@ -27,7 +27,8 @@ class AliyunOSS {
   }
 
   String _canonicalizedResource(Uri uri) {
-    return '/${_options.bucket}${uri.path}${uri.query.isNotEmpty ? '?' : ''}${uri.query}';
+    return Uri.decodeFull(
+        '/${_options.bucket}${uri.path}${uri.query.isNotEmpty ? '?' : ''}${uri.query}');
   }
 
   Future<Response<dynamic>> putObject(
@@ -41,34 +42,38 @@ class AliyunOSS {
     StorageType? storage,
     Map<String, dynamic>? headers,
   }) async {
-    final MultipartFile multipartFile =
-        MultipartFile.fromBytes(fileData, filename: fileKey);
+    final MultipartFile multipartFile = MultipartFile.fromBytes(
+      fileData,
+      filename: fileKey,
+    );
+
     final uri =
         Uri.parse("https://${_options.bucket}.${_options.endpoint}/$fileKey");
     final contentType = lookupMimeType(fileKey) ?? "application/octet-stream";
     final date = HttpDate.format(DateTime.now());
-    final aliyunHeaders = {
+    // final contentMd5 = EncryptUtil.md5Base64(fileData);
+    final aliYunHeaders = {
       'x-oss-forbid-overwrite': override,
       'x-oss-object-acl': acl?.content,
       'x-oss-storage-class': storage?.content,
       'x-oss-date': date,
       'x-oss-security-token': _options.securityToken,
     }..removeWhere((k, v) => v == null);
-    // final contentMd5 = EncryptUtil.md5Base64(fileData);
-    final String signature = EncryptUtil.signature(
-      accessKeySecret: _options.accessKeySecret,
-      method: 'PUT',
-      contentType: contentType,
-      // contentMd5: contentMd5,
-      date: date,
-      headers: aliyunHeaders,
-      resource: _canonicalizedResource(uri),
-    );
+    final signature = EncryptUtil.signature(
+        accessKeySecret: _options.accessKeySecret,
+        method: 'PUT',
+        contentType: contentType,
+        // contentMd5: contentMd5,
+        date: date,
+        headers: aliYunHeaders,
+        resource: _canonicalizedResource(uri));
     final $headers = {
+      ...aliYunHeaders,
       'content-type': contentType,
       'content-length': multipartFile.length,
+      // 'content-md5': contentMd5,
+      'Date': date,
       'Authorization': "OSS ${_options.accessKeyId}:$signature",
-      ...aliyunHeaders,
       ...?headers,
     }..removeWhere((k, v) => v == null);
     return Dio().putUri(

@@ -1,13 +1,13 @@
-阿里云SDK Dart实现
+# 阿里云SDK Dart实现
 
-# 特性
+## 特性
 
 - 支持 OSS的 签名、上传文件
 - 支持 SLS的 签名、上传日志
 
-# 使用
+## 使用
 
-## OSS上传文件
+### OSS上传文件
 
 ```dart
 import 'package:aliyun_sdk/aliyun_sdk.dart';
@@ -25,7 +25,7 @@ void main() async {
 }
 ```
 
-## SLS上传日志
+### SLS上传日志
 
 ```dart
 import 'package:aliyun_sdk/sls/aliyun_sls.dart';
@@ -44,3 +44,18 @@ void main() async {
 }
 
 ```
+
+## 赞助支持
+
+如果你觉得这个项目对你有帮助，欢迎通过以下方式支持我：
+
+- **支付宝**:
+
+  <img src="https://github.com/Zane0816/Resume/blob/master/assets/alipay_qrcode.jpeg?raw=true" alt="微信" width="300">
+  
+
+- **微信**:
+
+  <img src="https://github.com/Zane0816/Resume/blob/master/assets/wechat_qrcode.jpeg?raw=true" alt="微信" width="300">
+
+非常感谢你的支持！🌟

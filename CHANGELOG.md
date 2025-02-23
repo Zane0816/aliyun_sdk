@@ -1,3 +1,7 @@
+## 0.0.2
+
+- [feature] 完善:部分实现
+
 ## 0.0.1
 
-* TODO: Describe initial release.
+- [init] 初始化项目

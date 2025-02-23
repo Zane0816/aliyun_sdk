@@ -1,6 +1,6 @@
 name: aliyun_sdk
-description: Aliyun SDK for Flutter
-version: 0.0.1
+description: Aliyun SDK for Dart
+version: 0.0.2
 homepage: https://github.com/Zane0816/aliyun_sdk
 
 environment:
@@ -22,7 +22,7 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
-flutter:
+#flutter:
 
 # To add assets to your package, add an assets section, like this:
 # assets:
